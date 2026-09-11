@@ -31,8 +31,11 @@ jobs:
       - name: Check Java version
         run: java -version
 
-      - name: Test
-        run: ./mvnw test
-
       - name: Build
         run: ./mvnw clean package
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: planeja-financeiro-api
+          path: target/*.jar
