@@ -1,4 +1,4 @@
-name: CD - HML
+name: PIPELINE - DEV
 
 on:
   workflow_run:
@@ -7,16 +7,16 @@ on:
     types:
       - completed
     branches:
-      - release
+      - develop
 
 jobs:
-  deploy-hml:
+  deploy-dev:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
 
     environment:
-      name: hml
+      name: dev
 
     steps:
       - name: Download artifact
@@ -30,19 +30,19 @@ jobs:
       - name: Verify artifact
         run: |
           echo "================================"
-          echo "       ARTIFACT RECEBIDO"
+          echo "        ARTIFACT RECEBIDO"
           echo "================================"
           echo "Commit: ${{ github.event.workflow_run.head_sha }}"
-          echo "Ambiente: HML"
+          echo "Ambiente: DEV"
           echo ""
           echo "Arquivos:"
           ls -lh artifact
 
-      - name: Deploy HML
+      - name: Deploy DEV
         run: |
           echo "================================"
-          echo "          DEPLOY HML"
+          echo "        DEPLOY DEV"
           echo "================================"
           echo "Commit: ${{ github.event.workflow_run.head_sha }}"
-          echo "Ambiente: HML"
+          echo "Ambiente: DEV"
           echo "Status: Deploy realizado com sucesso"
