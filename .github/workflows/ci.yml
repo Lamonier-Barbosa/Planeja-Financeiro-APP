@@ -24,9 +24,12 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'temurin'
           cache: maven
+
+      - name: Check Java version
+        run: java -version
 
       - name: Test
         run: ./mvnw test
