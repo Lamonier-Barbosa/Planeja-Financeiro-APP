@@ -3,7 +3,7 @@ name: PIPELINE - PRD
 on:
   workflow_run:
     workflows:
-      - CI
+      - PIPELINE
     types:
       - completed
     branches:
