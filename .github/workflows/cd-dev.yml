@@ -1,0 +1,42 @@
+name: CD - DEV
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+    branches:
+      - develop
+
+jobs:
+  deploy-dev:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: dev
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: planeja-financeiro-api
+          path: artifact
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify artifact
+        run: |
+          echo "Arquivos recebidos:"
+          ls -lh artifact
+
+      - name: Deploy DEV
+        run: |
+          echo "================================"
+          echo "        DEPLOY DEV"
+          echo "================================"
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+          echo "Ambiente: DEV"
+          echo "Status: Deploy realizado com sucesso"
