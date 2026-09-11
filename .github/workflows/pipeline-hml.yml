@@ -1,0 +1,48 @@
+name: PIPELINE - HML
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+    branches:
+      - release
+
+jobs:
+  deploy-hml:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: hml
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: planeja-financeiro-api
+          path: artifact
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify artifact
+        run: |
+          echo "================================"
+          echo "       ARTIFACT RECEBIDO"
+          echo "================================"
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+          echo "Ambiente: HML"
+          echo ""
+          echo "Arquivos:"
+          ls -lh artifact
+
+      - name: Deploy HML
+        run: |
+          echo "================================"
+          echo "          DEPLOY HML"
+          echo "================================"
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+          echo "Ambiente: HML"
+          echo "Status: Deploy realizado com sucesso"

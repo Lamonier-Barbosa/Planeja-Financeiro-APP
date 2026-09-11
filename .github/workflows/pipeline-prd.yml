@@ -1,4 +1,4 @@
-name: CD - DEV
+name: PIPELINE - PRD
 
 on:
   workflow_run:
@@ -7,16 +7,16 @@ on:
     types:
       - completed
     branches:
-      - develop
+      - main
 
 jobs:
-  deploy-dev:
+  deploy-prd:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
 
     environment:
-      name: dev
+      name: prd
 
     steps:
       - name: Download artifact
@@ -30,19 +30,19 @@ jobs:
       - name: Verify artifact
         run: |
           echo "================================"
-          echo "        ARTIFACT RECEBIDO"
+          echo "       ARTIFACT RECEBIDO"
           echo "================================"
           echo "Commit: ${{ github.event.workflow_run.head_sha }}"
-          echo "Ambiente: DEV"
+          echo "Ambiente: PRD"
           echo ""
           echo "Arquivos:"
           ls -lh artifact
 
-      - name: Deploy DEV
+      - name: Deploy PRD
         run: |
           echo "================================"
-          echo "        DEPLOY DEV"
+          echo "          DEPLOY PRD"
           echo "================================"
           echo "Commit: ${{ github.event.workflow_run.head_sha }}"
-          echo "Ambiente: DEV"
+          echo "Ambiente: PRD"
           echo "Status: Deploy realizado com sucesso"
