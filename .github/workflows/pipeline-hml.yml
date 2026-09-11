@@ -1,9 +1,9 @@
-name: CD - HML
+name: PIPELINE - HML
 
 on:
   workflow_run:
     workflows:
-      - CI
+      - PIPELINE
     types:
       - completed
     branches:

@@ -1,9 +1,9 @@
-name: CD - DEV
+name: PIPELINE - DEV
 
 on:
   workflow_run:
     workflows:
-      - CI
+      - PIPELINE
     types:
       - completed
     branches:

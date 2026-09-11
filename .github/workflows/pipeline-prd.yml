@@ -1,0 +1,48 @@
+name: PIPELINE - PRD
+
+on:
+  workflow_run:
+    workflows:
+      - PIPELINE
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy-prd:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: prd
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: planeja-financeiro-api
+          path: artifact
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify artifact
+        run: |
+          echo "================================"
+          echo "       ARTIFACT RECEBIDO"
+          echo "================================"
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+          echo "Ambiente: PRD"
+          echo ""
+          echo "Arquivos:"
+          ls -lh artifact
+
+      - name: Deploy PRD
+        run: |
+          echo "================================"
+          echo "          DEPLOY PRD"
+          echo "================================"
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+          echo "Ambiente: PRD"
+          echo "Status: Deploy realizado com sucesso"
