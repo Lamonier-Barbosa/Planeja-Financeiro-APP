@@ -1,63 +1,63 @@
-name: Pipeline
-
-on:
-  push:
-    branches:
-      - develop
-
-jobs:
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          java-version: '25'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Build
-        run: ./mvnw clean package
-
-      - name: Upload JAR
-        uses: actions/upload-artifact@v4
-        with:
-          name: planeja-financeiro-api
-          path: target/*.jar
-
-
-  deploy-dev:
-    name: Deploy DEV
-    needs: build
-    runs-on: ubuntu-latest
-
-    environment:
-      name: dev
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: planeja-financeiro-api
-          path: artifact
-
-      - name: Verify artifact
-        run: |
-          echo "================================"
-          echo "       ARTIFACT RECEBIDO"
-          echo "================================"
-          ls -lh artifact
-
-      - name: Deploy DEV
-        run: |
-          echo "================================"
-          echo "          DEPLOY DEV"
-          echo "================================"
-          echo "Ambiente: DEV"
-          echo "Status: Deploy realizado com sucesso"
+#name: Pipeline
+#
+#on:
+#  push:
+#    branches:
+#      - develop
+#
+#jobs:
+#
+#  build:
+#    name: Build
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v5
+#
+#      - name: Setup Java
+#        uses: actions/setup-java@v5
+#        with:
+#          java-version: '25'
+#          distribution: 'temurin'
+#          cache: maven
+#
+#      - name: Build
+#        run: ./mvnw clean package
+#
+#      - name: Upload JAR
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: planeja-financeiro-api
+#          path: target/*.jar
+#
+#
+#  deploy-dev:
+#    name: Deploy DEV
+#    needs: build
+#    runs-on: ubuntu-latest
+#
+#    environment:
+#      name: dev
+#
+#    steps:
+#      - name: Download artifact
+#        uses: actions/download-artifact@v5
+#        with:
+#          name: planeja-financeiro-api
+#          path: artifact
+#
+#      - name: Verify artifact
+#        run: |
+#          echo "================================"
+#          echo "       ARTIFACT RECEBIDO"
+#          echo "================================"
+#          ls -lh artifact
+#
+#      - name: Deploy DEV
+#        run: |
+#          echo "================================"
+#          echo "          DEPLOY DEV"
+#          echo "================================"
+#          echo "Ambiente: DEV"
+#          echo "Status: Deploy realizado com sucesso"
