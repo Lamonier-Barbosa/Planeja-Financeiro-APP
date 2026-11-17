@@ -5,5 +5,6 @@ public enum BandeiraCartao {
     MASTERCARD,
     AMERICAN_EXPRESS,
     DINERS,
-    ELO
+    ELO,
+    FLASH
 }
